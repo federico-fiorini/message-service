@@ -3,4 +3,4 @@ from app.resources import *
 
 
 # Slack
-api.add_resource(SlackAPI, '/slack/<string:channel>', endpoint='index')
+api.add_resource(SlackAPI, '/message-api/slack/<string:channel>', endpoint='index')
