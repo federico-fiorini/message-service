@@ -1,11 +1,11 @@
-from app import app
+from app import config
 from slackclient import SlackClient
 
 
 class SlackMessage:
 
     def __init__(self, message, channel):
-        self.slack_client = SlackClient(app.config['SLACK_TOKEN'])
+        self.slack_client = SlackClient(config.SLACK_TOKEN)
         self.message = message
         self.channel = channel
 

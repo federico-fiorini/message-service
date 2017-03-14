@@ -1,3 +1,3 @@
-###Message-api
+###Message-service
 
-Public API interface to send messages through various channels.
+Celery tasks to send messages through various channels (slack, emails).
