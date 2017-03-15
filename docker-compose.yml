@@ -9,10 +9,11 @@ rabbit:
   - RABBITMQ_DEFAULT_PASS=tdlimpo_password
 
 worker:
-  image: message-service
+  image: federicofiorini/message-service
   environment:
   - RABBITMQ_HOST=rabbit
   - RABBITMQ_USER=tdlimpo
   - RABBITMQ_PASSWORD=tdlimpo_password
+  - SLACK_TOKEN=slack_token
   links:
   - rabbit

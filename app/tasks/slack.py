@@ -10,5 +10,5 @@ def send_slack_message(message, channel):
     :param channel:
     :return:
     """
-    message = SlackMessage(message=message, channel=channel)
-    message.send()
+    slack = SlackMessage(message=message, channel=channel)
+    slack.send()
