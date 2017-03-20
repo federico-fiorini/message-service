@@ -15,5 +15,6 @@ worker:
   - RABBITMQ_USER=tdlimpo
   - RABBITMQ_PASSWORD=tdlimpo_password
   - SLACK_TOKEN=slack_token
+  - SENDGRID_API_KEY=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
   links:
   - rabbit
