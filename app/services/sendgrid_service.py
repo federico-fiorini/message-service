@@ -1,4 +1,5 @@
 import sendgrid
+import urllib.error
 from sendgrid.helpers.mail import *
 from app.config import SENDGRID_API_KEY, TD_LIMPO_EMAIL_SENDER
 from app import logger
@@ -34,7 +35,9 @@ class EmailMessage:
         personalization.add_to(to_email)
         mail_helper.add_personalization(personalization)
 
-        response = self.sg.client.mail.send.post(request_body=mail_helper.get())
-
-        if 200 <= response.status_code < 300:
-            logger.error("Sendgrid API returned %s with following message: %s" % (response.status_code, response.body))
+        try:
+            self.sg.client.mail.send.post(request_body=mail_helper.get())
+        except urllib.error.HTTPError as err:
+            errors = json.loads(err.read().decode("utf8", 'ignore'))
+            errors = '; '.join(list(map(lambda x: x['message'], errors['errors'])))
+            logger.error("Sendgrid API returned %s with following errors: %s" % (err.code, errors))

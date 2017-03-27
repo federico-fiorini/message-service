@@ -1,20 +1,25 @@
-rabbit:
-  image: rabbitmq:management
-  ports:
-  - "5672:5672"
-  - "8080:15672"
-  environment:
-  - RABBITMQ_NODENAME=tdlimpo_rabbit
-  - RABBITMQ_DEFAULT_USER=tdlimpo
-  - RABBITMQ_DEFAULT_PASS=tdlimpo_password
+version: '3'
+services:
+  rabbit:
+    image: rabbitmq:management
+    ports:
+    - "5672:5672"
+    - "8080:15672"
+    environment:
+    - RABBITMQ_NODENAME=tdlimpo_rabbit
+    - RABBITMQ_DEFAULT_USER=tdlimpo
+    - RABBITMQ_DEFAULT_PASS=tdlimpo_password
 
-worker:
-  image: federicofiorini/message-service
-  environment:
-  - RABBITMQ_HOST=rabbit
-  - RABBITMQ_USER=tdlimpo
-  - RABBITMQ_PASSWORD=tdlimpo_password
-  - SLACK_TOKEN=slack_token
-  - SENDGRID_API_KEY=sendgrid_api_key
-  links:
-  - rabbit
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: message-service
+    environment:
+    - RABBITMQ_HOST=rabbit
+    - RABBITMQ_USER=tdlimpo
+    - RABBITMQ_PASSWORD=tdlimpo_password
+    - SLACK_TOKEN=slack_token
+    - SENDGRID_API_KEY=sendgrid_api_key
+    links:
+    - rabbit
