@@ -1,1 +1,4 @@
-import app.config as config
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)

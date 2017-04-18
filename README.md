@@ -7,7 +7,7 @@ Celery tasks to send messages through various channels (slack, emails).
 
 	./start-docker-compose.sh
 	
-To update local image from latest remote docker image:
+To update local image with latest changes:
 
 	./start-docker-compose.sh update
 

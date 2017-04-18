@@ -6,7 +6,9 @@ celery_app = Celery()
 celery_app.config_from_object(celeryconfig)
 
 TASKS = {
-    'SLACK_MESSAGE': 'tasks.send_slack_message'
+    'SLACK_MESSAGE': 'tasks.send_slack_message',
+    'RESET_PASSWORD_EMAIL': 'tasks.reset_password_email'
 }
 
-from app.tasks.slack import *
+from .slack import *
+from .email import *

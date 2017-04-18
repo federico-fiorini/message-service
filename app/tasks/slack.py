@@ -1,5 +1,5 @@
 from app.tasks import celery_app, TASKS
-from app.services.slack_service import SlackMessage
+from app.services import SlackMessage
 
 
 @celery_app.task(name=TASKS['SLACK_MESSAGE'])
@@ -10,5 +10,5 @@ def send_slack_message(message, channel):
     :param channel:
     :return:
     """
-    slack = SlackMessage(message=message, channel=channel)
-    slack.send()
+    slack = SlackMessage()
+    slack.send(message=message, channel=channel)
