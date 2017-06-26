@@ -9,6 +9,10 @@ TEMPLATES = {
     'FEEDBACK': {
         'en': '61858e5f-e6bc-4d33-b32e-cbb878a0b629',
         'pt': 'f7c790c6-33b1-4ac5-85c5-c7c7ec38cfce'
+    },
+    'ORDER_CONFIRMATION': {
+        # 'en': '61858e5f-e6bc-4d33-b32e-cbb878a0b629',
+        'pt': '87f63d0a-9e85-475f-bf6e-118efeddb0f8'
     }
 }
 
@@ -38,7 +42,7 @@ def reset_password_email(user, reset_password_url):
 @celery_app.task(name=TASKS['FEEDBACK_EMAIL'])
 def feedback_email(user, feedback_url):
     """
-    Send email to reset user password
+    Send email to ask user for feedback
     :param user:
     :param feedback_url:
     :return:
@@ -53,4 +57,38 @@ def feedback_email(user, feedback_url):
         email_to=user['email'],
         substitutes=data,
         template_id=TEMPLATES['FEEDBACK'][lang]
+    )
+
+
+@celery_app.task(name=TASKS['ORDER_CONFIRMATION_EMAIL'])
+def order_confirmation_email(user, order):
+    """
+    Send email to confirm order
+    :param user:
+    :param order:
+    :return:
+    """
+    lang = user['language']
+    data = {
+        '[user.name]': user['name'],
+        '[order.number]': order['number'],
+        '[order.hours]': order['hours'],
+        '[order.extras]': order['extras'],
+        '[order.date]': order['date'],
+        '[order.startTime]': order['startTime'],
+        '[order.endTime]': order['endTime'],
+        '[address]': order['address'],
+        '[address.district]': order['addressDistrict'],
+        '[address.city]': order['addressCity'],
+        '[cleaner.name]': order['cleanerName'],
+        '[order.unitPrice]': order['unitPrice'],
+        '[order.totalPrice]': order['totalPrice'],
+        '[order.paymentMethod]': order['paymentMethod'],
+    }
+
+    email = EmailMessage()
+    email.send(
+        email_to=user['email'],
+        substitutes=data,
+        template_id=TEMPLATES['ORDER_CONFIRMATION'][lang]
     )
